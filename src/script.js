@@ -28,6 +28,9 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 let mixer = null
 
+const raycaster = new THREE.Raycaster()
+const mouse = new THREE.Vector2()
+
 gltfLoader.load(
     '/models/SalaComCameras.gltf',
     (gltf) =>
@@ -35,6 +38,59 @@ gltfLoader.load(
         //gltf.scene.scale.set(0.1, 0.1, 0.1)
         scene.add(gltf.scene)
         
+        const F08 = 'S_F_08'
+        const meshF08 = gltf.scene.getObjectByName('S_F_08')
+        if(F08){
+            console.log('Mesh encontrado: F08', F08)
+            meshF08.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
+
+        const E14 = 'S_E_14'
+        const meshE14 = gltf.scene.getObjectByName('S_E_14')
+        if(E14){
+            console.log('Mesh encontrado: E14', E14)
+            meshE14.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
+
+        const D01 = 'S_D_01'
+        const meshD01 = gltf.scene.getObjectByName('S_D_01')
+        if(D01){
+            console.log('Mesh encontrado: D01', D01)
+            meshD01.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
+
+        const C04 = 'S_C_04'
+        const meshC04 = gltf.scene.getObjectByName('S_C_04')
+        if(C04){
+            console.log('Mesh encontrado: C04', C04)
+            meshC04.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
+
+        const B10 = 'S_B_10'
+        const meshB10 = gltf.scene.getObjectByName('S_B_10')
+        if(B10){
+            console.log('Mesh encontrado: B10', B10)
+            meshB10.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
+
+        const A13 = 'S_A_13'
+        const meshA13 = gltf.scene.getObjectByName('S_A_13')
+        if(A13){
+            console.log('Mesh encontrado: A13', A13)
+            meshA13.userData.clickable = true
+        } else {
+            console.log('Mesh não encontrado')
+        }
 
         // Animation
         mixer = new THREE.AnimationMixer(gltf.scene)
@@ -42,6 +98,33 @@ gltfLoader.load(
         action.play()
     }
 )
+
+//Função para atualizar a posição do mouse
+function onMouseMove(event){
+    //Calcula a posição normalizada do mouse
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+}
+
+//Função para detectar cliques do mouse
+function onMouseClick(event){
+    onMouseMove(event)
+    raycaster.setFromCamera(mouse, activeCamera)
+
+    const intersects = raycaster.intersectObjects(scene.children, true)
+
+    if (intersects.length > 0){
+        const firstIntersectedObject = intersects[0].object
+        if(firstIntersectedObject.userData.clickable){
+            console.log('Mesh clicado: F08', firstIntersectedObject)
+            activeCamera = cameraF08
+        }
+    }
+
+}
+
+window.addEventListener('mousemove', onMouseMove, false)
+window.addEventListener('click', onMouseClick, false)
 
 /**
  * Lights
@@ -75,8 +158,8 @@ window.addEventListener('resize', () =>
     sizes.height = window.innerHeight
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
+    cameraInicial.aspect = sizes.width / sizes.height
+    cameraInicial.updateProjectionMatrix()
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
@@ -86,17 +169,48 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
-// Base camera
-//const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
-//camera.position.set(2, 2, 2)
-//scene.add(camera)
 
 const cameraInicial = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraInicial.position.set(360.2362060546875, 136.86610412597656, -29.527559280395508)
 scene.add(cameraInicial)
 
+const cameraF08 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraF08.position.set(18.700790405273438, 203.40159606933594, -157.4803009033203)
+cameraF08.rotation.x = 0; 
+cameraF08.rotation.y = 105;
+cameraF08.rotation.z = 0;
+
+scene.add(cameraF08)
+
+const cameraE14 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraE14.position.set(81.69291687011719, 189.22830200195312, -274.6062927246094)
+cameraE14.rotation.set(0, 0.6295543313026428, 0, 0.7769564986228943)
+scene.add(cameraE14)
+
+const cameraD01 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraD01.position.set(121.06300354003906, 175.0550994873047, -20.669288635253906)
+cameraD01.rotation.set(0, 0.7020176649093628, 0, 0.7121596336364746)
+scene.add(cameraD01)
+
+const cameraC04 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraC04.position.set(160.43309020996094, 160.88189697265625, -79.72441101074219)
+cameraC04.rotation.set(0, 0.2741743326187134, 0, 0.961679995059967)
+scene.add(cameraC04)
+
+const cameraB10 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraB10.position.set(199.8031005859375, 146.7086944580078, -195.8660888671875)
+cameraB10.rotation.set(0, 0.26490309834480286, 0, 0.964275062084198)
+scene.add(cameraB10)
+
+const cameraA13 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
+cameraA13.position.set(239.17318725585938, 132.535400390625, -254.92129516601562)
+cameraA13.rotation.set(0, 0.0925510972738266, 0, 0.9957079291343689)
+scene.add(cameraA13)
+
+let activeCamera = cameraInicial
+
 // Controls
-const controls = new OrbitControls(cameraInicial, canvas)
+const controls = new OrbitControls(activeCamera, canvas)
 controls.target.set(0, 0.75, 0)
 controls.enableDamping = true
 
@@ -133,7 +247,7 @@ const tick = () =>
     controls.update()
 
     // Render
-    renderer.render(scene, cameraInicial)
+    renderer.render(scene, activeCamera)
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
