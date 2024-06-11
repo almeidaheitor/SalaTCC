@@ -1,8 +1,4 @@
-# Three.js Journey
-
-## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+# Sala TCC
 
 ``` bash
 # Install dependencies (only the first time)
