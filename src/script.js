@@ -113,11 +113,26 @@ function onMouseClick(event){
 
     const intersects = raycaster.intersectObjects(scene.children, true)
 
-    if (intersects.length > 0){
-        const firstIntersectedObject = intersects[0].object
-        if(firstIntersectedObject.userData.clickable){
-            console.log('Mesh clicado: F08', firstIntersectedObject)
-            activeCamera = cameraF08
+    const clickableObjectsToCameras = {
+        S_F_08: cameraF08,
+        S_E_14: cameraE14,
+        S_D_01: cameraD01,
+        S_C_04: cameraC04,
+        S_B_10: cameraB10,
+        S_A_13: cameraA13
+    }
+
+    if (intersects.length > 0) {
+        const firstIntersectedObject = intersects[0].object;
+        if (firstIntersectedObject.userData.clickable) {
+            const objectName = firstIntersectedObject.userData.name;
+            console.log(`Mesh clicado: ${objectName}`, firstIntersectedObject);
+            // Verifica se o objeto clicado tem uma câmera associada
+            if (clickableObjectsToCameras[objectName]) {
+                activeCamera = clickableObjectsToCameras[objectName];
+            } else {
+                console.log(`Nenhuma câmera associada encontrada para o objeto ${objectName}`);
+            }
         }
     }
 
@@ -184,27 +199,37 @@ scene.add(cameraF08)
 
 const cameraE14 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraE14.position.set(81.69291687011719, 189.22830200195312, -274.6062927246094)
-cameraE14.rotation.set(0, 0.6295543313026428, 0, 0.7769564986228943)
+cameraE14.rotation.x = 0; 
+cameraE14.rotation.y = 115;
+cameraE14.rotation.z = 0;
 scene.add(cameraE14)
 
 const cameraD01 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraD01.position.set(121.06300354003906, 175.0550994873047, -20.669288635253906)
-cameraD01.rotation.set(0, 0.7020176649093628, 0, 0.7121596336364746)
+cameraD01.rotation.x = 0; 
+cameraD01.rotation.y = 74;
+cameraD01.rotation.z = 0;
 scene.add(cameraD01)
 
 const cameraC04 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraC04.position.set(160.43309020996094, 160.88189697265625, -79.72441101074219)
-cameraC04.rotation.set(0, 0.2741743326187134, 0, 0.961679995059967)
+cameraC04.rotation.x = 0; 
+cameraC04.rotation.y = 74;
+cameraC04.rotation.z = 0;
 scene.add(cameraC04)
 
 const cameraB10 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraB10.position.set(199.8031005859375, 146.7086944580078, -195.8660888671875)
-cameraB10.rotation.set(0, 0.26490309834480286, 0, 0.964275062084198)
+cameraB10.rotation.x = 0; 
+cameraB10.rotation.y = 73.7;
+cameraB10.rotation.z = 0;
 scene.add(cameraB10)
 
 const cameraA13 = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 1000)
 cameraA13.position.set(239.17318725585938, 132.535400390625, -254.92129516601562)
-cameraA13.rotation.set(0, 0.0925510972738266, 0, 0.9957079291343689)
+cameraA13.rotation.x = 0; 
+cameraA13.rotation.y = 73.55;
+cameraA13.rotation.z = 0;
 scene.add(cameraA13)
 
 let activeCamera = cameraInicial
